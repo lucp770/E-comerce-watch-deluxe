@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta lang="en"/>
+        <title> Payment Page: Cryptocurrency</title>
+        <link rel="stylesheet" type="text/css" href="payment.css">
+        <script src="https://kit.fontawesome.com/6c1da93a13.js" crossorigin="anonymous"></script>
+
+        <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
+        type="application/javascript"></script>
+    </head>
+
+    <body>
+        <nav class="navbar">
+			<div class="navbar-center">
+				<span class="nav-icon">
+					<i class="fas fa-bars"></i>
+				</span>
+				<img src="./images2/logo.png"/>
+				<div class="cart-btn">
+				</div>
+			</div>
+		</nav>
+
+		<div class="menu">
+			<div class="hide-menu"><i class="fa-solid fa-left-long"></i></div>
+			<section class="menu-item"><a href = "#" >My profile</a></section>
+			<section class="menu-item"><a href = "#" >My shopping List</a></section>
+
+		</div>
+
+
+         <!-- STARTS THE MAIN CONTENT-->
+
+        <div class="div-master">
+        <div class="main-container width-re">
+            <h2 class="username">Hello </h2>
+
+            <h4 class="confirm-text">The payment is gonna be executed by the MetaMask Service, please 
+               if confirm you have the necessary funds in your MetaMask Wallet before continuing </h4>
+
+            <div class="user-total-container">
+                <span > Your total:</span>
+                <span class="user-total">0</span>
+            </div>
+            <div class="information-banner hidden"><p>This value is estimating the total for the transactoin, including an extimated gass price</p></div>
+            
+            <div class="final-footer">
+                <h3>Confirm Payment ?</h3>
+                <button class="finish-payment botao-final">CONFIRM</button>
+                <button class="cancel-payment botao-final"> CANCEL</button>
+            </div>
+
+
+
+        <script src="crypto_payment.js"></script>
+    </body>
+
+</html>

@@ -5,7 +5,7 @@
       "fields": {
         "title": "Quartz analogue watch",
         "price": 10.99,
-        "image": { "fields": { "file": { "url": "./images/product-1.jpeg" } } }
+        "image": { "fields": { "file": { "url": "./images2/product-1.jpg" } } }
       }
     },
     {
@@ -13,7 +13,7 @@
       "fields": {
         "title": "Rolex GMT-Master II",
         "price": 121.99,
-        "image": { "fields": { "file": { "url": "./images/product-2.jpeg" } } }
+        "image": { "fields": { "file": { "url": "./images2/product-2.jpg" } } }
       }
     },
     {
@@ -21,7 +21,7 @@
       "fields": {
         "title": "Feminine analogue watch",
         "price": 12.99,
-        "image": { "fields": { "file": { "url": "./images/product-3.jpeg" } } }
+        "image": { "fields": { "file": { "url": "./images2/product-12.jpg" } } }
       }
     },
     {
@@ -29,7 +29,7 @@
       "fields": {
         "title": "Hybrid watch",
         "price": 22.99,
-        "image": { "fields": { "file": { "url": "./images/product-4.jpeg" } } }
+        "image": { "fields": { "file": { "url": "./images2/product-11.jpg" } } }
       }
     },
     {
@@ -37,7 +37,7 @@
       "fields": {
         "title": "Military watch",
         "price": 88.99,
-        "image": { "fields": { "file": { "url": "./images/product-5.jpeg" } } }
+        "image": { "fields": { "file": { "url": "./images2/product-5.jpg" } } }
       }
     },
     {
@@ -45,7 +45,7 @@
       "fields": {
         "title": "Modern smart watch",
         "price": 32.99,
-        "image": { "fields": { "file": { "url": "./images/product-6.jpeg" } } }
+        "image": { "fields": { "file": { "url": "./images2/product-6.jpg" } } }
       }
     },
     {
@@ -53,7 +53,7 @@
       "fields": {
         "title": "Military analogue watch",
         "price": 45.99,
-        "image": { "fields": { "file": { "url": "./images/product-7.jpeg" } } }
+        "image": { "fields": { "file": { "url": "./images2/product-10.jpg" } } }
       }
     },
     {
@@ -61,7 +61,7 @@
       "fields": {
         "title": "Solar watch",
         "price": 33.99,
-        "image": { "fields": { "file": { "url": "./images/product-8.jpeg" } } }
+        "image": { "fields": { "file": { "url": "./images2/product-8.jpg" } } }
       }
     }
   ]

@@ -2,7 +2,7 @@
 
 /*Use the pseudo class root to select the high level parent*/
 :root{
-	--primaryColor: #f09d51;
+	--primaryColor: #0e3e66;
 	--mainWhite: #fff;
 	--mainBlack: #222;
 	--mainGrey: #ececec;
@@ -27,14 +27,20 @@ body{
 .navbar{
 	position: sticky;/* this makes the bar static when scrolls */ 
 	top: 0;
-	height: 60px;
+	height: 85px;
 	width: 100%;
 	display: flex;
 	align-items: center;
-	background: rgb(231,226,221);
+	background: rgb(223,219,229);
+	background-image: url("/images2/background.png");
 	z-index: 1;/* isso provavelente permite que a barra sobreponha outros elementos da pagina*/
 
 
+
+}
+
+.navbar-center img{
+	border-radius: 3rem;
 }
 
 .navbar-center{
@@ -70,7 +76,7 @@ body{
 
 .hero{
 	  min-height: calc(100vh - 60px);
-  	background: url("./images/hero-bcg.jpeg") center/cover no-repeat;
+  	background: url("./images2/background2.jpg") center/cover no-repeat;
   	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -96,12 +102,13 @@ body{
   padding: 1rem 3rem;
   text-transform: uppercase;
   letter-spacing: var(--mainSpacing);
-  font-size: 1rem;
+  font-size: 1.5rem;
   background: var(--primaryColor);
-  color: var(--mainBlack);
+  color: var(--mainWhite);
   border: 1px solid var(--primaryColor);
   transition: var(--mainTransition);/* this property configures the time of the hoover event*/
   cursor: pointer;
+  font-family: "Helvetica,Lato";
 }
 
 .banner-btn:hover {
@@ -109,7 +116,6 @@ body{
   color: var(--primaryColor);
 }
 
-/*products section*/
 
 .products{
 	padding: 4rem 0;
@@ -173,6 +179,7 @@ body{
 	display: block;
 	width: 100%;
 	min-height: 12rem;
+	max-height: 12rem;
 	transition: var(--mainTransition);
 }
 
@@ -309,6 +316,8 @@ body{
 	background: var(--primaryColor);
 	transition: var(--mainTransition);
   font-size: 1rem;
+  font-family: "helvetica, lato";
+  color: var(--mainWhite);
   /*font-weight: bold;*/
   letter-spacing: var(--mainSpacint);
   border: 1px solid var(--primaryColor);
@@ -318,4 +327,98 @@ body{
 	cursor: pointer;
 	background: transparent;
   color: var(--primaryColor);
+}
+
+.menu{
+	position: fixed;
+	top:  0;
+	width: 20%;
+	height: 100%;
+	z-index: 4;
+	left: 0;
+	margin-right: 50%;
+  background: rgb(231, 226, 221);
+	/*visibility: hidden;*/
+	transform: translateX(-100%);
+	transition: var(--mainTransition);
+}
+
+.showMenu{
+	transform: translateX(0);
+}
+
+.nav-icon{
+	cursor: pointer;
+}
+
+.menu section{
+	font-family: "Helvetica";
+	font-size: 1.3rem;
+	color: var(--mainBlack);
+	border-radius: 6px;
+}
+
+section a{
+	text-decoration: none;
+	color: var(--mainBlack);
+	margin-left: 10px;
+}
+
+
+.menu-item:hover{
+	background: var(--primaryColor);
+	color: var(--mainWhite);
+}
+
+.menu-item:hover a{
+	color: var(--mainWhite);
+}
+
+.hide-menu{
+	background: var(--mainBlack);
+	width: 100%;
+	padding: 10px ;
+	border-radius: 0px;
+	cursor: pointer;
+}
+
+.hide-menu i{
+	color: var(--mainWhite);
+	cursor: pointer;
+}
+
+.footer-btns{
+	display: flex;
+	flex-direction: row;
+}
+
+.finish-shopping{
+	
+	margin-left: .5rem;
+	margin-top: 1.2rem;
+	padding: 1.1rem;
+	width: 190px;
+	border: none;
+	background: var(--primaryColor);
+	transition: var(--mainTransition);
+  font-size: 1rem;
+  font-family: "helvetica, lato";
+  color: var(--mainWhite);
+  /*font-weight: bold;*/
+  letter-spacing: var(--mainSpacint);
+  border: 1px solid var(--primaryColor);
+}
+
+.finish-shopping:hover{
+	cursor: pointer;
+	background: transparent;
+  	color: var(--primaryColor);
+}
+
+.disabled-button{
+	background: transparent;
+	color: var(--primaryColor);
+}
+.disabled-button:hover{
+	cursor: unset;
 }

@@ -7,7 +7,13 @@ const cartOverlay = document.querySelector(".cart-overlay");
 const cartItems= document.querySelector(".cart-items");
 const cartTotal = document.querySelector(".cart-total");
 const cartContent= document.querySelector(".cart-content");
-const productDOM = document.querySelector(".products-center"); 
+const productDOM = document.querySelector(".products-center");
+const showMenuBtn = document.querySelector('.nav-icon');
+const MenuDOM = document.querySelector('.menu');
+const hideMenuDOM = document.querySelector('.hide-menu');
+const finishShoppingBtn = document.querySelector('.finish-shopping');
+const shopButton = document.querySelector('.banner-btn');
+const shoppingDiv= document.querySelector('.products');
 
 // array that stores the items of the cart
 let cart = [];
@@ -18,7 +24,7 @@ class Product{
 
 	async getProduct(){
 		try{
-			let result = await fetch('./resources/products.json');
+			let result = await fetch('./resources/products2.json');
 			let data = await result.json();
 
 			let products = data.items;
@@ -110,9 +116,8 @@ class UI{
 	}
 
 	addCartItem(item){
-		// create a div object
+	
 		const div = document.createElement('div');
-		// configure the div properties
 		div.classList.add('cart-item');
 		div.innerHTML = '<img src =' + item.image + ' alt ="product" /><div><h4>' + item.title + '</h4><h5> $' + item.price + '</h5><span class="remove-item" data-id = ' + item.id + '>remove item</span></div><div><i class="fas fa-chevron-up" data-id = ' + item.id + ' ></i><p class="item-amount">1</p><i class="fas fa-chevron-down" data-id = ' + item.id + '></i></div>'
 		cartContent.appendChild(div);
@@ -121,6 +126,18 @@ class UI{
 	showCart(){
 		cartOverlay.classList.add('transparentBcg');
 		cartDOM.classList.add('showCart');
+		if (cart.length ===0){
+			//disable the button
+			finishShoppingBtn.classList.add('disabled-button');
+			clearCartBtn.classList.add('disabled-button');
+			finishShoppingBtn.disable = true;
+		}
+		else{
+			finishShoppingBtn.classList.remove('disabled-button');
+			clearCartBtn.classList.remove('disabled-button');
+			finishShoppingBtn.disable = false;
+		}
+		
 	}
 
 	hideCart(){
@@ -137,10 +154,57 @@ class UI{
 
 		// add the itens in the cart html
 		this.populate(cart);
+		console.log('app setup', cart.length);
+		if (cart.length ===0){
+			console.log('condicao satisfeita');
+			//disable the button
+			finishShoppingBtn.classList.add('disabled-button');
+			clearCartBtn.classList.add('disabled-button');
+			finishShoppingBtn.disable = true;
+		}
+		else{
+			console.log('cart nao vazio');
+			finishShoppingBtn.classList.remove('disabled-button');
+			clearCartBtn.classList.remove('disabled-button');
+			finishShoppingBtn.disable = false;
+		}
 
 		// add the event listeners for the buttons
 		cartBtn.addEventListener('click', this.showCart);
 		closeCartBtn.addEventListener('click', this.hideCart);
+		showMenuBtn.addEventListener('click', this.showMenu);
+		hideMenuDOM.addEventListener('click', event => this.HideMenu(event));
+		finishShoppingBtn.addEventListener('click', this.openFinishShoppingPage);
+		//need to insert a callback to manipulate the DOM.
+		shopButton.addEventListener('click',event => this.scrollToShopping());
+	}
+
+	scrollToShopping(){
+		console.log('clicado');
+		shoppingDiv.scrollIntoView({behavior: "smooth"});
+	}
+
+	openFinishShoppingPage(){
+		//open new page, save logged user and total in local storage.
+
+		if(finishShoppingBtn.disable === false){
+		//remove the line bellow after user authentication is i place.
+		const user = "Standard User";
+		const total  = {user: user, total: parseFloat(cartTotal.innerText)};
+		localStorage.setItem("userAndTotalValue",JSON.stringify(total));
+		window.location.href = './payment_page.html';
+		}
+		
+	}
+
+	showMenu(){
+		MenuDOM.classList.add('showMenu');
+	}
+
+	HideMenu(event){
+		if(event.target.classList.contains("hide-menu") || event.target.classList.contains("fa-solid")){
+			MenuDOM.classList.remove('showMenu');
+		}
 	}
 
 	populate(cart){
@@ -157,15 +221,12 @@ class UI{
 			// checks whether the target of the click is the remove text
 			if (event.target.classList.contains("remove-item")) {
 				let removeItem = event.target;
-				console.log(removeItem)
 				let id = removeItem.dataset.id;
 				// remove from the cart
 				this.removeItem(id);
 
 				// remove from the DOM
 				cartContent.removeChild(removeItem.parentElement.parentElement);
-
-
 			}
 
 			else if (event.target.classList.contains("fa-chevron-up")){
@@ -202,6 +263,19 @@ class UI{
 					cartContent.removeChild(lowerAmount.parentElement.parentElement);
 					this.removeItem(id);
 					// also needs to update the bag button
+					if (cart.length ===0){
+				
+						//disable the button
+						finishShoppingBtn.classList.add('disabled-button');
+						clearCartBtn.classList.add('disabled-button');
+						finishShoppingBtn.disable = true;
+					}
+					else{
+				
+						finishShoppingBtn.classList.remove('disabled-button');
+						clearCartBtn.classList.remove('disabled-button');
+						finishShoppingBtn.disable = false;
+					}
 				}
 
 			}
@@ -232,6 +306,19 @@ class UI{
 		// change the text of the button to be 'add to cart'
 		button.disabled = false;
 		button.innerHTML = '<i class ="fas fa-shopping-cart"></i>add to cart'
+		if (cart.length ===0){
+			console.log('condicao satisfeita');
+			//disable the button
+			finishShoppingBtn.classList.add('disabled-button');
+			clearCartBtn.classList.add('disabled-button');
+			finishShoppingBtn.disable = true;
+		}
+		else{
+			console.log('cart nao vazio');
+			finishShoppingBtn.classList.remove('disabled-button');
+			clearCartBtn.classList.remove('disabled-button');
+			finishShoppingBtn.disable = false;
+		}
 
 	}
 

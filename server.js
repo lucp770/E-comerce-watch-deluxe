@@ -8,7 +8,8 @@ var port = 5000;
 // app.use(express.static(path.join(__dirname,'/styles')));
 app.use(express.static('./public'));
 
-// app.get('/', (req,res) =>{
+// app.get('/payment.css', (req,res) =>{
+// 	res.send();
 // 	console.log(path.join(__dirname,'/styles'));
 // 	res.sendFile(path.join(__dirname, 'index.html'));
 // })

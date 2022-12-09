@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta lang="en"/>
+        <title> Payment Page</title>
+        <link rel="stylesheet" type="text/css" href="payment.css">
+        <script src="https://kit.fontawesome.com/6c1da93a13.js" crossorigin="anonymous"></script>
+    </head>
+
+    <body>
+        <nav class="navbar">
+			<div class="navbar-center">
+				<span class="nav-icon">
+					<i class="fas fa-bars"></i>
+				</span>
+				<img src="./images2/logo.png"/>
+				<div class="cart-btn">
+				</div>
+			</div>
+		</nav>
+
+		<div class="menu">
+			<div class="hide-menu"><i class="fa-solid fa-left-long"></i></div>
+			<section class="menu-item"><a href = "#" >My profile</a></section>
+			<section class="menu-item"><a href = "#" >My shopping List</a></section>
+
+		</div>
+
+
+         <!-- STARTS THE MAIN CONTENT-->
+
+        <div class="div-master">
+        <div class="main-container">
+            <h2 class="username">Hello </h2>
+
+            <h3> Your shopping list: </h3>
+
+            <div class="items-list">
+                <!-- create here an example that is going to be dinamically allocated-->
+              <!-- <div class="shopping-item">
+                    <div class="img-container">
+                        <img src="./images/product-1.jpeg" alt="product-1"/>
+                    </div>
+                    
+                    <div class="item-name">
+                        <h5>Feminine Analogue watch</h5>
+                        <div class="item-info">
+                            <span>$12,99</span>
+                            <span>qtde: 1</span>
+                        </div>
+
+                    </div>
+
+                </div>-->
+               
+                <!-- create here an example that is going to be dinamically allocated-->
+            </div>
+
+            <div class="user-total-container">
+                <span > Your total:</span>
+                <span class="user-total">0</span>
+            </div>
+
+            <h2> Select payment method</h2>
+
+            <div class="payment-method-container">
+                <ul class="payment-methods">
+                    <li class="payment-method" name = "method-of-payment"> 
+                       <div class="payment-container PayPal">
+                            <img class = "paypal-image PayPal" src = "./images2/paypal.png" />
+                            <div class="PayPal">PayPal</div>
+                        </div>
+                    </li>
+                    <li class=" payment-method " name = "method-of-payment">
+                        <div class="payment-container creditCard">
+                            <img class = "paypal-image creditCard" src = "./images2/credit-card.png" />
+                            <div class="creditCard">Credit Card</div>
+                        </div>
+                        
+                    </li>
+                    <li class="payment-method " name = "method-of-payment">
+                        <div class="payment-container crypto">
+                       <img class = "paypal-image crypto" src ="./images2/bitcoin.png" alt="crypto icons" />
+                       <div class="crypto">Cryptocurrency</div>
+                        </div>
+                    </li>           
+                </ul>
+            </div>
+
+            <div class="payment-footer">
+				<button class="finish-payment"> FINISH PAYMENT</button>
+				<button class="cancel-payment">CANCEL</button>
+			</div>
+
+        </div>
+    </div>
+        <script src = "payment.js"></script>
+    </body>
+</html>
