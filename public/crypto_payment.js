@@ -19,7 +19,7 @@ const {user, total} = JSON.parse(localStorage.getItem('userAndTotalValue'));
 
 //------------------------loading total in usdt and checking metamask.-----------------------------
 
-async function executeTransaction(sender, recipient, total, gasPrice){
+async function executeTransaction(sender, recipient, total, gasPrice,signer_provider){
    const tx = {
       from: sender,
       to: recipient,
@@ -30,8 +30,6 @@ async function executeTransaction(sender, recipient, total, gasPrice){
    };
 
    const transaction = await signer.sendTransaction(sender,'latest');
-
-   console.log(transaction);
    return transaction;
 
 }
@@ -55,7 +53,7 @@ async function executeTransaction(sender, recipient, total, gasPrice){
    //get ethtoUSD price from the binance API.
    try{
 
-      let ethToUSDT  = await fetch('https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1h');
+      let ethToUSDT  = await fetch('https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1m');
       // let data ='binance'
       ethToUSDT = await ethToUSDT.json();
       ethToUSDT = ethToUSDT[ethToUSDT.length-1][4];
@@ -67,39 +65,32 @@ async function executeTransaction(sender, recipient, total, gasPrice){
       console.log(e);
    }
     
-
  }
-
- getEthPrice(total).then(result => console.log(result));
 
 async function fillDom(){
    //get the eth provider (metamask)
    let provider = new ethers.providers.JsonRpcProvider('https://rpc.ankr.com/eth_goerli');
-   console.log('jsonprovider', provider);
    let signer_provider = new ethers.providers.Web3Provider(window.ethereum);
-   console.log('eth provider', signer_provider);
-
    const signer = await signer_provider.getSigner();
    //get the gas price:
    let gasPrice = await signer_provider.getGasPrice();
    //convert gasPrice to ether.
    gasPrice =  ethers.utils.formatUnits(gasPrice,'ether');
 
+//tudo isso numa funcao;
    getEthPrice(total).then( ({totalEth, ethToUSDT}) =>{
    let text = (totalEth+Number(gasPrice)).toString()
    console.log('gasPrice: ');
 
    let newTotal = total + gasPrice/ethToUSDT;
-
+   localStorage.setItem("TotalInETH",JSON.stringify(text));
    //set the inner html
 
-   userTotal.innerHTML = text +' ETH' + ' ( $'+ newTotal +' )';
+   userTotal.innerHTML = text +' ETH' + ' ( $'+ newTotal.toFixed(2) +' )';
    })
 }
 
 document.addEventListener('DOMContentLoaded',fillDom)
-
-
 userTotal.addEventListener('mouseover',()=>{
    informText.classList.remove('hidden');
 })
@@ -109,14 +100,43 @@ userTotal.addEventListener('mouseleave',()=>{
 })
 
 confirmPayment.addEventListener('click', async ()=>{
-   console.log('botao clicado');
    //the wallet associated with the 
    const recipient = '0x7A77e531E1e7444027817356f2dCf5349fEd2e84';
    const sender = await getAdress();
-   console.log(sender);
+   let newTotal = JSON.parse(localStorage.getItem('TotalInETH'));
 
+   //getGasprice from sender.
+
+   //get the eth provider (metamask)
+   let signer_provider = new ethers.providers.Web3Provider(window.ethereum);
+   const signer = await signer_provider.getSigner();
+
+   //get the gas price:
+
+   let gasPrice = await signer_provider.getGasPrice();
+   //convert gasPrice to ether.
+   gasPrice =  ethers.utils.formatUnits(gasPrice,'ether');
+
+   //check if connected to the goerli network, if connected then execute the transaction, otherwise throw an error.
+   const {chainId} = await signer_provider.getNetwork();
+   console.log('network', chainId);
+
+   if(chainId ===5){
+      let tx = await executeTransaction(sender, recipient, newTotal, gasPrice, signer_provider);
+      console.log('transaction:', tx);
+   }
+   else{
+      alert('Please connect to the Goerli Network in your MetaMask');
+   }
+
+   //create a transaction:
+   // sendTransaction(sender, recipient, newTotal, gasPrice, signer);
+   //rethink with transaction is being send via JSON rpc e signed via metamask.
 
 })
+
+cancelPayment.addEventListener('click', )
+
 
 //--------------------//--------//------------//------------------
 
