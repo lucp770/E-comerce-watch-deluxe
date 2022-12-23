@@ -51,7 +51,7 @@ class UI{
 		let result = '';
 		products.forEach(product => {
 			// now lets insert a product in the div product-center
-			result = result +'<article class="product"><div class="img-container"><img src= '+ product.image + ' alt="product-1" class="product-img"/><button class="bag-btn" data-id =' + product.id + '><i class="fas fa-shopping-cart"></i>add to bag</button><h3>' + product.title + '</h3><h4> $' + product.price +'</h4></div></article>'
+			result = result +'<article class="product"><div class="img-container"><img src= '+ product.image + ' alt="product-1" class="product-img"/><button class="bag-btn" data-id =' + product.id + '><i class="fas fa-shopping-cart"></i>add to cart</button><h3>' + product.title + '</h3><h4> $' + product.price +'</h4></div></article>'
 					});
 		productDOM.innerHTML = result;
 	}

@@ -88,7 +88,7 @@ body{
 }
 .main-container{
     position: relative;
-    border-radius: 3%;
+/*    border-radius: 3%;*/
     border: 2px solid var(--mainBlack);
     margin-top:0;
     margin-left: 12rem;
@@ -304,11 +304,18 @@ body{
 }
 
 .width-re{
-    border-radius: 1rem;
     margin-left: 20rem;
     max-width: 40rem;
 }
 
 .confirm-text{
     margin: auto 1rem;
+}
+
+.disabled-button{
+    background: transparent;
+    color: var(--primaryColor);
+}
+.disabled-button:hover{
+    cursor: unset;
 }

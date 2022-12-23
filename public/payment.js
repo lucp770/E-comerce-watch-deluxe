@@ -34,7 +34,7 @@ function createDivFromItem(item){
     const div = document.createElement('div');
     // configure the div properties
     div.classList.add('shopping-item');
-    div.innerHTML = '<div class="img-container"><img src='+ item.image +' alt="product-'+ item.id + '"/></div><div class="item-name"> <h5>'+ item.title+'</h5><div class="item-info"><span>$'+item.price+'</span><span class= "qtde">qtde:'+item.amount+'</span></div></div>'
+    div.innerHTML = '<div class="img-container"><img src='+ item.image +' alt="product-'+ item.id + '"/></div><div class="item-name"> <h5>'+ item.title+'</h5><div class="item-info"><span>$'+item.price+'</span><span class= "qtde">quantity: '+item.amount+'</span></div></div>'
     productList.appendChild(div);
 }
 
@@ -91,8 +91,9 @@ paymentMethods.addEventListener('click', event =>{
         console.log('paypal');
         //enable next button
 
-        selectPayment(selectedMethod);
+        // selectPayment(selectedMethod);
         paymentSelected = "payPal";
+        alert('Sorry, this payment method is not available in the moment');
 
 
         //add the selected class
@@ -102,8 +103,9 @@ paymentMethods.addEventListener('click', event =>{
 
     else if(selectedMethod.classList.contains("creditCard")){
         console.log('credit card');
-        selectPayment(selectedMethod);
+        // selectPayment(selectedMethod);
         paymentSelected = "creditCard";
+        alert('Sorry, this payment method is not available in the moment');
 
     }
     else if (selectedMethod.classList.contains("crypto")){
@@ -123,6 +125,7 @@ paymentMethods.addEventListener('click', event =>{
         }
         
     }
+    //end crypto
 })
 
 
@@ -131,8 +134,7 @@ showMenuBtn.addEventListener('click', showMenu);
 hideMenuDOM.addEventListener('click', event => this.HideMenu(event));
 
 nextButton.addEventListener('click', ()=>{
-    if(userCanAdvance){
-        alert('botao clicado');
+    if(userCanAdvance){ 
         localStorage.setItem("paymentMethod", paymentSelected);
         //save in local storage the payment method selected.
         window.location.href = './crypto_payment.html'

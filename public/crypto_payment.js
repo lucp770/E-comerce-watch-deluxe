@@ -20,13 +20,16 @@ const {user, total} = JSON.parse(localStorage.getItem('userAndTotalValue'));
 //------------------------loading total in usdt and checking metamask.-----------------------------
 
 async function executeTransaction(sender, recipient, total, gasPrice,signer_provider){
+   let signer = signer_provider;
+    transaction_nounce = await signer_provider.getTransactionCount(sender,'latest');
+
    const tx = {
       from: sender,
       to: recipient,
-      value: ether.utils.parseUnits(total, "ethers"),
-      gasPrice: gasPrice,
-      gasLimit: ethers.utils.hexlify(10000000), //100 000 gwei
-      nounce: signer_provider.getTransactionCount(sender, 'latest')
+      value: ethers.utils.parseUnits(total, "ether"),
+      gasPrice: ethers.utils.parseUnits(gasPrice, "ether"),
+      gasLimit: ethers.utils.hexlify(100000), //100 000 gwei
+      nounce: transaction_nounce
    };
 
    const transaction = await signer.sendTransaction(sender,'latest');
@@ -79,18 +82,26 @@ async function fillDom(){
 
 //tudo isso numa funcao;
    getEthPrice(total).then( ({totalEth, ethToUSDT}) =>{
-   let text = (totalEth+Number(gasPrice)).toString()
-   console.log('gasPrice: ');
+   let text = (totalEth+Number(gasPrice)).toFixed(7).toString();
+   let totalNoGas = totalEth.toString();
 
+   //total in dolars
    let newTotal = total + gasPrice/ethToUSDT;
-   localStorage.setItem("TotalInETH",JSON.stringify(text));
+
+   localStorage.setItem("TotalInETHWithGas",JSON.stringify(text));
+   localStorage.setItem("TotalInETH",JSON.stringify(totalNoGas));
    //set the inner html
 
    userTotal.innerHTML = text +' ETH' + ' ( $'+ newTotal.toFixed(2) +' )';
+   confirmPayment.classList.remove('disabled-button');
+
+   //ativar os botões
+
    })
 }
 
-document.addEventListener('DOMContentLoaded',fillDom)
+document.addEventListener('DOMContentLoaded',fillDom);
+
 userTotal.addEventListener('mouseover',()=>{
    informText.classList.remove('hidden');
 })
@@ -100,19 +111,23 @@ userTotal.addEventListener('mouseleave',()=>{
 })
 
 confirmPayment.addEventListener('click', async ()=>{
-   //the wallet associated with the 
-   const recipient = '0x7A77e531E1e7444027817356f2dCf5349fEd2e84';
-   const sender = await getAdress();
-   let newTotal = JSON.parse(localStorage.getItem('TotalInETH'));
 
-   //getGasprice from sender.
+     //the wallet associated with the 
+   const recipient = '0x7A77e531E1e7444027817356f2dCf5349fEd2e84';
+   let sender = await getAdress();
+
+   //above function returns an array, get the first item
+   sender = sender[0];
+   console.log('sender adress: ', sender);
+   
+   //get the total without gas fees
+   let newTotal = JSON.parse(localStorage.getItem('TotalInETH'));
 
    //get the eth provider (metamask)
    let signer_provider = new ethers.providers.Web3Provider(window.ethereum);
    const signer = await signer_provider.getSigner();
 
    //get the gas price:
-
    let gasPrice = await signer_provider.getGasPrice();
    //convert gasPrice to ether.
    gasPrice =  ethers.utils.formatUnits(gasPrice,'ether');
@@ -122,20 +137,43 @@ confirmPayment.addEventListener('click', async ()=>{
    console.log('network', chainId);
 
    if(chainId ===5){
-      let tx = await executeTransaction(sender, recipient, newTotal, gasPrice, signer_provider);
+      console.log('sender: ', sender, 'recipient: ', recipient,'newtotal: ', newTotal, 'gasPrice: ', gasPrice, 'signer_provider: ', signer_provider)
+     
+      let nounce = await signer_provider.getTransactionCount(sender, 'latest');
+
+      const tx = {
+      from: sender,
+      to: recipient,
+      value: ethers.utils.parseUnits(newTotal, "ether"),
+      gasPrice: ethers.utils.parseUnits(gasPrice, "ether"),
+      gasLimit: ethers.utils.hexlify(100000), //100 000 gwei
+      nounce: nounce,
+      chainId: 5
+   };
       console.log('transaction:', tx);
+
+      console.log('executing transaction ....');
+
+       let transaction = await executeTransaction(sender, recipient, newTotal, gasPrice, signer_provider);
+       console.log(transaction);
+      //check if everythinf is in hex
+     
+
    }
    else{
       alert('Please connect to the Goerli Network in your MetaMask');
    }
 
-   //create a transaction:
-   // sendTransaction(sender, recipient, newTotal, gasPrice, signer);
-   //rethink with transaction is being send via JSON rpc e signed via metamask.
-
+  
 })
 
-cancelPayment.addEventListener('click', )
+cancelPayment.addEventListener('click', ()=>{
+   localStorage.removeItem('TotalInETH');
+   localStorage.removeItem('paymentMethod');
+   
+   //back to main page:
+   window.location.href = './index.html';
+})
 
 
 //--------------------//--------//------------//------------------

@@ -355,7 +355,6 @@ body{
 	font-family: "Helvetica";
 	font-size: 1.3rem;
 	color: var(--mainBlack);
-	border-radius: 6px;
 }
 
 section a{
@@ -378,7 +377,6 @@ section a{
 	background: var(--mainBlack);
 	width: 100%;
 	padding: 10px ;
-	border-radius: 0px;
 	cursor: pointer;
 }
 
