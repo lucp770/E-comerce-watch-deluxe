@@ -1,0 +1,28 @@
+.loader{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+}
+
+.loader::after{
+	content:"";
+	width: 75px;
+	height:75px;
+	border: 15px solid #dddddd;
+	border-top-color: #0e3e66;
+	border-radius: 50%;
+	animation: loading 0.75s ease infinite;
+
+}
+
+@keyframes loading{
+	from {transform: rotate(0turn)}
+	to {transform: rotate(1turn)}
+}
+
+.final-msg{
+	margin-left: 1.7rem;
+	margin-bottom: 1rem;
+	margin-top: 1rem;
+}

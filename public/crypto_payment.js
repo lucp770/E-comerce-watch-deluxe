@@ -1,15 +1,17 @@
-//create a loading screen, get the data from the user and the total from the localstorage;
-//creating a loading circle
-// open metamask, to execute a transaction
-//if transaction suceeded, then change the page to green, otherwise change to red.
-
 //_________________// get DOM elements //___________________________//
 
 const totalContainer = document.querySelector('.user-total-container');
 const informText = document.querySelector('.information-banner');
 const userTotal = document.querySelector('.user-total');
+
+const showMenuBtn = document.querySelector('.nav-icon');
+const MenuDOM = document.querySelector('.menu');
+const hideMenuDOM = document.querySelector('.hide-menu');
+
 const confirmPayment = document.querySelector('.finish-payment');
 const cancelPayment = document.querySelector('.cancel-payment');
+const footer = document.querySelector('.final-footer');
+
 let ETHPrice;
 
 //----------------get data from localStorage:----------------//
@@ -20,27 +22,42 @@ const {user, total} = JSON.parse(localStorage.getItem('userAndTotalValue'));
 //------------------------loading total in usdt and checking metamask.-----------------------------
 
 async function executeTransaction(sender, recipient, total, gasPrice,signer_provider){
-   let signer = signer_provider;
+  
+    const signer = await signer_provider.getSigner();
+
     transaction_nounce = await signer_provider.getTransactionCount(sender,'latest');
 
    const tx = {
-      from: sender,
       to: recipient,
-      value: ethers.utils.parseUnits(total, "ether"),
+      value: ethers.utils.parseEther(total),
       gasPrice: ethers.utils.parseUnits(gasPrice, "ether"),
-      gasLimit: ethers.utils.hexlify(100000), //100 000 gwei
-      nounce: transaction_nounce
+      // gasLimit: ethers.utils.hexlify(100000), //100 000 gwei
+      // nounce: transaction_nounce
    };
 
-   const transaction = await signer.sendTransaction(sender,'latest');
-   return transaction;
+   const transaction = await signer.sendTransaction(tx);
+
+   console.log('transaction executed.... \n', transaction)
+
+   console.log('\n transaction in execution .....');
+
+   //insert here the page loading., alter the inner html do final footer.
+
+   generateLoader();
+
+   const confirmedTransaction = await transaction.wait()
+
+   console.log('\n confirmed transaction : ', confirmedTransaction);
+   let txHash = confirmedTransaction.transactionHash;
+
+   generateConclusionMessage(txHash);
+
+   return confirmedTransaction;
 
 }
 
  async function getAdress(){
-      //get the eth provider (metamask)
-   let provider = new ethers.providers.JsonRpcProvider('https://rpc.ankr.com/eth_goerli');
-   console.log('jsonprovider', provider);
+
    let signer_provider = new ethers.providers.Web3Provider(window.ethereum);
     try{
       //i guess i could get the data to be fin
@@ -61,7 +78,7 @@ async function executeTransaction(sender, recipient, total, gasPrice,signer_prov
       ethToUSDT = await ethToUSDT.json();
       ethToUSDT = ethToUSDT[ethToUSDT.length-1][4];
 
-      let totalEth = await price/ethToUSDT; // (1000 USDT/1 ETH)*(1/ 20 USDT)
+      let totalEth = await price/ethToUSDT;
       return {totalEth, ethToUSDT};
 
    }catch(e){
@@ -80,13 +97,26 @@ async function fillDom(){
    //convert gasPrice to ether.
    gasPrice =  ethers.utils.formatUnits(gasPrice,'ether');
 
-//tudo isso numa funcao;
-   getEthPrice(total).then( ({totalEth, ethToUSDT}) =>{
-   let text = (totalEth+Number(gasPrice)).toFixed(7).toString();
+   getEthPrice(total).then( async ({totalEth, ethToUSDT}) =>{
+   let text = totalEth.toFixed(7).toString();
    let totalNoGas = totalEth.toString();
 
+   //calculate the total gas
+     let totalGas  = await signer_provider.estimateGas({
+      to: '0x7A77e531E1e7444027817356f2dCf5349fEd2e84', 
+      value: ethers.utils.parseEther(text)
+   })
+     totalGas=totalGas.toNumber();
+
+   //calculate the estimated transaction fee
+   const transactionFee = totalGas*gasPrice;
+   console.log('fee: ', transactionFee);
+
+   //
+   text = (transactionFee+totalEth).toFixed(7).toString();
+
    //total in dolars
-   let newTotal = total + gasPrice/ethToUSDT;
+   let newTotal = total + transactionFee/ethToUSDT;
 
    localStorage.setItem("TotalInETHWithGas",JSON.stringify(text));
    localStorage.setItem("TotalInETH",JSON.stringify(totalNoGas));
@@ -100,7 +130,32 @@ async function fillDom(){
    })
 }
 
+function showMenu(){
+      MenuDOM.classList.add('showMenu');
+   }
+
+function HideMenu(event){
+      if(event.target.classList.contains("hide-menu") || event.target.classList.contains("fa-solid")){
+         MenuDOM.classList.remove('showMenu');
+      }
+   }
+
+function generateLoader(){
+    footer.innerHTML = '<div class = "loader"></div><p> waiting for the transaction to be mined on the blockchain ...</p>';
+}
+
+function generateConclusionMessage(txHash){
+   let link = 'https://goerli.etherscan.io/tx/'+txHash;
+   footer.innerHTML = '<h2> Transaction fineshed </h2><p class = "final-msg"> The transactoin can be verified on <a href = "'+link+'">Etherscan</a></p><button class="final-button cancel-payment">Finish</button>'
+   //add the event listener for final button.
+
+   const finalButton = document.querySelector('.final-button');
+   finalButton.addEventListener('click', ()=>{
+       window.location.href = './index.html';
+   })
+}
 document.addEventListener('DOMContentLoaded',fillDom);
+// document.addEventListener('DOMContentLoaded',generateConclusionMessage('0x156620150b364435efcc05fb73568f99a37b52a2ff12836499e932075322f0e8'));
 
 userTotal.addEventListener('mouseover',()=>{
    informText.classList.remove('hidden');
@@ -125,8 +180,7 @@ confirmPayment.addEventListener('click', async ()=>{
 
    //get the eth provider (metamask)
    let signer_provider = new ethers.providers.Web3Provider(window.ethereum);
-   const signer = await signer_provider.getSigner();
-
+  
    //get the gas price:
    let gasPrice = await signer_provider.getGasPrice();
    //convert gasPrice to ether.
@@ -137,28 +191,19 @@ confirmPayment.addEventListener('click', async ()=>{
    console.log('network', chainId);
 
    if(chainId ===5){
-      console.log('sender: ', sender, 'recipient: ', recipient,'newtotal: ', newTotal, 'gasPrice: ', gasPrice, 'signer_provider: ', signer_provider)
-     
-      let nounce = await signer_provider.getTransactionCount(sender, 'latest');
-
-      const tx = {
-      from: sender,
-      to: recipient,
-      value: ethers.utils.parseUnits(newTotal, "ether"),
-      gasPrice: ethers.utils.parseUnits(gasPrice, "ether"),
-      gasLimit: ethers.utils.hexlify(100000), //100 000 gwei
-      nounce: nounce,
-      chainId: 5
-   };
-      console.log('transaction:', tx);
+  
 
       console.log('executing transaction ....');
+      try{
 
        let transaction = await executeTransaction(sender, recipient, newTotal, gasPrice, signer_provider);
-       console.log(transaction);
-      //check if everythinf is in hex
-     
 
+      }
+      catch(e){
+         alert('An error has ocurred during the transaction: \n \n'+ e);
+         console.log(e);
+      }
+     
    }
    else{
       alert('Please connect to the Goerli Network in your MetaMask');
@@ -174,6 +219,10 @@ cancelPayment.addEventListener('click', ()=>{
    //back to main page:
    window.location.href = './index.html';
 })
+
+showMenuBtn.addEventListener('click', showMenu);
+hideMenuDOM.addEventListener('click', event => HideMenu(event));
+
 
 
 //--------------------//--------//------------//------------------

@@ -49,7 +49,42 @@ body{
 	justify-content: space-between;
 	padding: 0 1.5rem;
 }
+
+.menu section{
+    font-family: "Helvetica";
+    font-size: 1.3rem;
+    color: var(--mainBlack);
+}
+
+section a{
+    text-decoration: none;
+    color: var(--mainBlack);
+    margin-left: 10px;
+}
+
+
+.menu-item:hover{
+    background: var(--primaryColor);
+    color: var(--mainWhite);
+}
+
+.menu-item:hover a{
+    color: var(--mainWhite);
+}
+
 .hide-menu{
+    background: var(--mainBlack);
+    width: 100%;
+    padding: 10px ;
+    cursor: pointer;
+}
+
+.hide-menu i{
+    color: var(--mainWhite);
+    cursor: pointer;
+}
+
+/*.hide-menu{
 	background: var(--mainBlack);
 	width: 100%;
 	padding: 10px ;
@@ -60,22 +95,27 @@ body{
 .hide-menu i{
 	color: var(--mainWhite);
 	cursor: pointer;
-}
-
-
+}*/
 
 .menu{
-	position: fixed;
-	top:  0;
-	width: 20%;
-	height: 100%;
-	z-index: 4;
-	left: 0;
-	margin-right: 50%;
+    position: fixed;
+    top:  0;
+    width: 100%;
+    height: 100%;
+    z-index: 4;
+    left: 0;
+    margin-right: 50%;
   background: rgb(231, 226, 221);
-  visibility: hidden;
-  transform: translateX(-100%);
-	transition: var(--mainTransition);
+    /*visibility: hidden;*/
+    transform: translateX(-100%);
+    transition: var(--mainTransition);
+}
+
+@media screen and (min-width: 768px) {
+  .menu {
+    width: 20%;
+    min-width: 200px;
+  }
 }
 
 .showMenu{
@@ -87,16 +127,43 @@ body{
     margin-top: 2rem;
 }
 .main-container{
+    position: absolute;
+    left: 0;
+    border: 2px solid var(--mainBlack);
+    margin: 0;
+    background-color: var(--mainGrey);
+    padding: 10px;
+}
+
+.width-re{
+    margin: 1rem 2rem;
+    min-width: 450px;
+}
+
+.width-shopping-list{
     position: relative;
-/*    border-radius: 3%;*/
+    margin: 1rem 2rem;
+    min-width: 460px;
+
+}
+
+@media screen and (min-width: 987px) {
+  .main-container {
+    position: relative;
     border: 2px solid var(--mainBlack);
     margin-top:0;
     margin-left: 12rem;
     margin-right: 12rem;
     background-color: var(--mainGrey);
     padding: 10px;
-   
+  }
+
+  .width-re{
+    margin-left: 20rem;
+    max-width: 40rem;
 }
+}
+
 
 .main-container h2{
     margin: 1.5rem;
@@ -242,8 +309,8 @@ body{
 
 .cancel-payment:hover{
 	cursor: pointer;
-	background: transparent;
-  color: var(--primaryColor);
+    background: transparent;
+    color: var(--primaryColor);
 }
 
 .user-total-container span{
@@ -301,11 +368,6 @@ body{
 
 .botao-final{
     margin: .4rem .6rem;
-}
-
-.width-re{
-    margin-left: 20rem;
-    max-width: 40rem;
 }
 
 .confirm-text{
