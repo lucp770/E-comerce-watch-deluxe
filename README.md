@@ -4,6 +4,8 @@ However, there is a fully functional cart that allows users to add products, cal
 
 I implemented the payment functionality using the Goerli test network, so there is no real money involved in the payment.
 
+The website is online on: https://watchdeluxe.netlify.app/
+
 The website is divided as follows:
 
 ## main page:
