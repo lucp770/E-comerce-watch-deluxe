@@ -27,3 +27,5 @@ So if the user atempts to select any of them, a message will show up and tell th
 The payment completion is only possible if the user have the metamask extension installed. In this page the total is going to be converted to ETH using the price available via the Binance API.And the payment is executed via the Goerli testnet, so that no real money can be expended.
 
 ![paymentFinal2](https://user-images.githubusercontent.com/35705412/211090951-ded4d9ae-e1ca-4916-80b4-2cf432139b91.png)
+
+![finish](https://user-images.githubusercontent.com/35705412/211091428-7141cffc-eff9-4474-8a95-90489e2dfda3.png)
