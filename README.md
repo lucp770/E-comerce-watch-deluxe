@@ -1,8 +1,8 @@
 # E-commerce-watch-deluxe
-This a hipotetical E-commerce page that i developed. The products are not real, and are just there for ilustration.
-However, there is a fully functional cart that allows user to add products, calculate the total and send the user to a payment page where the user can pay for the products using cryptocurrency.
+This is a hypothetical E-commerce page that I developed. The products are not real, and are just there for illustration.
+However, there is a fully functional cart that allows users to add products, calculate the total, and send the user to a payment page where they can pay for the products using cryptocurrency.
 
-I implemented the payment functionality using the goerli test network so there is no real money involved in the payment.
+I implemented the payment functionality using the Goerli test network, so there is no real money involved in the payment.
 
 The website is divided as follows:
 
@@ -14,17 +14,18 @@ The website is divided as follows:
 
 ![mainPage3](https://user-images.githubusercontent.com/35705412/211091078-adefef2e-2419-43fc-9f41-8f94eb973747.png)
 
-The main page is where the user can select the products that are gonna be purchased. When selected the products are adeded to the cart the total is summed and the user can proceed or clear the cart.
+The main page is where the user can select the products that are going to be purchased. When selected, the products are added to the cart, the total is summed up, and the user can proceed or clear the cart.
 
 ## payment method selection:
 
 ![secondPage](https://user-images.githubusercontent.com/35705412/211091097-d3a49a11-e513-487b-b971-7541118862b5.png)
 
-Here I included other options besides crypto, however they are not functional because this would require interaction with the paypal API or the API for some credit card system, and this would not be viable to do in this test project.
-So if the user atempts to select any of them, a message will show up and tell the user that this payment method is not available.
+Here I included other options besides crypto. However, they are not functional because this would require interaction with the PayPal API or the API for some credit card systems, and this would not be viable to do in this test project.
+So, if the user attempts to select any of them, a message will show up and tell the user that this payment method is not available.
 
 ## payment completion:
-The payment completion is only possible if the user have the metamask extension installed. In this page the total is going to be converted to ETH using the price available via the Binance API.And the payment is executed via the Goerli testnet, so that no real money can be expended.
+
+Payment completion is only possible if the user has the metamask extension installed. On this page, the total is going to be converted to ETH using the price available via the Binance API. And the payment is executed via the Goerli testnet, so that no real money can be expended.
 
 ![paymentFinal2](https://user-images.githubusercontent.com/35705412/211090951-ded4d9ae-e1ca-4916-80b4-2cf432139b91.png)
 
