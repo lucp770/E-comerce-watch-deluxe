@@ -6,7 +6,7 @@ I implemented the payment functionality using the goerli test network so there i
 
 The website is divided as follows:
 
-##main page:
+#main page:
 
 ##payment method selection:
 
